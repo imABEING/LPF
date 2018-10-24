@@ -31,10 +31,13 @@ private:
     AudioProcessorValueTreeState& valueStateTree;
     
     Slider filterCutoffDial;
-    Slider filterResDial;
-    
+    Label filterCutoffLabel;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> filterCutoffValue;
+    
+    Slider filterResDial;
+    Label filterResLabel;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> filterResValue;
+    
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     Iir_filterAudioProcessor& processor;

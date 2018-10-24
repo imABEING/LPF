@@ -18,22 +18,35 @@ Iir_filterAudioProcessorEditor::Iir_filterAudioProcessorEditor (Iir_filterAudioP
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
-    setVisible(true);
+    setSize (600, 400);
     
     //Cutoff Dial
-    filterCutoffDial.setRange(0, 20000);
+    filterCutoffDial.setRange(0, 20000, 14000);
     filterCutoffDial.setValue(20000);
+    filterCutoffDial.setSliderStyle(Slider::RotaryVerticalDrag);
     filterCutoffDial.setTextValueSuffix(" Hz");
     addAndMakeVisible(filterCutoffDial);
     //filterCutoffDial.addListener(this);
     
+    //Cutoff Dial Label
+    addAndMakeVisible(filterCutoffLabel);
+    filterCutoffLabel.setText("Cutoff", dontSendNotification);
+    filterCutoffLabel.setJustificationType(Justification::centred);
+    filterCutoffValue = new AudioProcessorValueTreeState::SliderAttachment(valueStateTree, "Cutoff", filterCutoffDial);
+    
     //Resonance Dial
-    filterResDial.setRange(1, 5);
+    filterResDial.setRange(1, 5, 1);
     filterResDial.setValue(0.71f);
     filterResDial.setTextValueSuffix(" Hz");
+    filterResDial.setSliderStyle(Slider::RotaryVerticalDrag);
     //filterResDial.addListener(this);
     addAndMakeVisible(filterResDial);
+    
+    //Resonance Dial Label
+    addAndMakeVisible(filterResDial);
+    filterResLabel.setText("Resonance", dontSendNotification);
+    filterResLabel.setJustificationType(Justification::centred);
+    filterResValue = new AudioProcessorValueTreeState::SliderAttachment(valueStateTree, "Resonance", filterResDial);
 }
 
 Iir_filterAudioProcessorEditor::~Iir_filterAudioProcessorEditor()
@@ -45,14 +58,19 @@ void Iir_filterAudioProcessorEditor::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-    
-    g.setColour (Colours::black);
+    g.fillAll (Colours::black);
+    g.setColour (Colours::aqua);
     g.setFont (15.0f);
     g.drawFittedText ("IIR Filter", getLocalBounds(), Justification::centred, 1);
 }
 
 void Iir_filterAudioProcessorEditor::resized()
 {
-    filterCutoffDial.setBounds(getLocalBounds());
-    filterResDial.setBounds(getLocalBounds());
+    const int labelWidth = getWidth() / 3;
+    const int labelHeight = 25;
+    const int sliderWidth = getWidth() / 3;
+    const int sliderHeight = getHeight() - labelHeight;
+    
+    filterCutoffDial.setBounds(0, 0, sliderWidth, sliderHeight);
+    filterResDial.setBounds(sliderWidth, 0, sliderWidth, sliderHeight);
 }

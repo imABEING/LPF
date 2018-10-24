@@ -28,7 +28,6 @@ Iir_filterAudioProcessor::Iir_filterAudioProcessor()
     //Create Slider Ranges
     NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
     NormalisableRange<float> resRange (1.0f, 5.0f);
-    NormalisableRange<float> filterMenuRange (0, 2);
     
     //Create and return a new parameter objects for features
     tree.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 600.0f, nullptr, nullptr);
