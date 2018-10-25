@@ -26,12 +26,14 @@ Iir_filterAudioProcessor::Iir_filterAudioProcessor()
 #endif
 {
     //Create Slider Ranges
-    NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
-    NormalisableRange<float> resRange (1.0f, 5.0f);
+    //NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
+    //NormalisableRange<float> resRange (1.0f, 5.0f);
     
     //Create and return a new parameter objects for features
-    tree.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 600.0f, nullptr, nullptr);
-    tree.createAndAddParameter("resonance", "Resonance", "resonance", resRange, 1.0f, nullptr, nullptr);
+    tree.createAndAddParameter("cutoff", "Cutoff", String(),
+        NormalisableRange<float>(20.0f, 20000.0f), 600.0f, nullptr, nullptr);
+    tree.createAndAddParameter("resonance", "Resonance", String(),
+        NormalisableRange<float>(1.0f, 5.0f), 1.0f, nullptr, nullptr);
     
     //State Identifier
     tree.state = ValueTree(Identifier("FilterState"));
@@ -109,7 +111,7 @@ void Iir_filterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     //Pass in values from dsp module
     lastSampleRate = sampleRate;
     dsp::ProcessSpec spec;
-    spec.sampleRate = sampleRate;
+    sampleRate = spec.sampleRate;
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
     
@@ -153,11 +155,15 @@ bool Iir_filterAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
 void Iir_filterAudioProcessor::updateFilter()
 {
     //Access values from value tree to pass into filter state
-    float freq = *tree.getRawParameterValue("cutoff");
-    float res = *tree.getRawParameterValue("resonance");
+    const float freq = *tree.getRawParameterValue("cutoff");
+    const float res = *tree.getRawParameterValue("resonance");
+    
+    
     
     //Access state attribute to return coefficients
     *lowPassFilter.state = *dsp::IIR::Coefficients <float>::makeLowPass(lastSampleRate, freq, res);
+    
+    //lowPassFilter.
 }
 
 void Iir_filterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
@@ -169,9 +175,10 @@ void Iir_filterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
         buffer.clear (i, 0, buffer.getNumSamples());
     
     //Data Structure to refer to buffer
-    dsp::AudioBlock<float> block (buffer);
+    dsp::AudioBlock <float> block (buffer);
     updateFilter();
-    lowPassFilter.process(dsp::ProcessContextReplacing <float> (block));
+    lowPassFilter.process(dsp::ProcessContextReplacing<float> (block));
+    
 
 /*
     for (int channel = 0; channel < totalNumInputChannels; ++channel)

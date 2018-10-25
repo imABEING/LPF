@@ -18,6 +18,8 @@
 /**
 */
 class Iir_filterAudioProcessorEditor  : public AudioProcessorEditor
+                                        //private Slider::Listener
+
 {
 public:
     Iir_filterAudioProcessorEditor (Iir_filterAudioProcessor&, AudioProcessorValueTreeState&);
@@ -26,6 +28,7 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    //void sliderValueChanged(Slider* slider) override;
 
 private:
     AudioProcessorValueTreeState& valueStateTree;

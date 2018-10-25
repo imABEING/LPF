@@ -21,9 +21,9 @@ Iir_filterAudioProcessorEditor::Iir_filterAudioProcessorEditor (Iir_filterAudioP
     setSize (600, 400);
     
     //Cutoff Dial
-    filterCutoffDial.setRange(0, 20000, 14000);
-    filterCutoffDial.setValue(20000);
     filterCutoffDial.setSliderStyle(Slider::RotaryVerticalDrag);
+    filterCutoffDial.setRange(20.0, 20000.0, 0.1);
+    filterCutoffDial.setValue(600.0);
     filterCutoffDial.setTextValueSuffix(" Hz");
     addAndMakeVisible(filterCutoffDial);
     //filterCutoffDial.addListener(this);
@@ -35,9 +35,8 @@ Iir_filterAudioProcessorEditor::Iir_filterAudioProcessorEditor (Iir_filterAudioP
     filterCutoffValue = new AudioProcessorValueTreeState::SliderAttachment(valueStateTree, "Cutoff", filterCutoffDial);
     
     //Resonance Dial
-    filterResDial.setRange(1, 5, 1);
-    filterResDial.setValue(0.71f);
-    filterResDial.setTextValueSuffix(" Hz");
+    filterResDial.setRange(0.1f, 5.0f);
+    filterResDial.setValue(0.76f);
     filterResDial.setSliderStyle(Slider::RotaryVerticalDrag);
     //filterResDial.addListener(this);
     addAndMakeVisible(filterResDial);
@@ -62,6 +61,7 @@ void Iir_filterAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::aqua);
     g.setFont (15.0f);
     g.drawFittedText ("IIR Filter", getLocalBounds(), Justification::centred, 1);
+    //g.drawImageAt(Background, 0, 0);
 }
 
 void Iir_filterAudioProcessorEditor::resized()

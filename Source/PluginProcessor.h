@@ -58,17 +58,17 @@ public:
     //Function to update filter
     void updateFilter();
     
+    //Variable to manage plugin state
+    AudioProcessorValueTreeState tree;
+    
 
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Iir_filterAudioProcessor)
     
-    //Variable to manage plugin state
-    AudioProcessorValueTreeState tree;
-    
     //declare varaibles
-    double lastSampleRate;
+    float lastSampleRate;
     
     //declare LPF function
-    dsp::ProcessorDuplicator<dsp::IIR::Filter <float> , dsp::IIR::Coefficients <float>> lowPassFilter;
+    dsp::ProcessorDuplicator <dsp::IIR::Filter<float>, dsp::IIR::Coefficients <float>> lowPassFilter;
 };
