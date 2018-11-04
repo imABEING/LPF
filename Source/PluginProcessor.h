@@ -61,23 +61,14 @@ public:
     //Variable to manage plugin state
     AudioProcessorValueTreeState tree;
     
-<<<<<<< HEAD
     float resValue;
-=======
->>>>>>> origin/master
 
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Iir_filterAudioProcessor)
     
     //declare varaibles
-<<<<<<< HEAD
     float lastSampleRate;
-    
-    //dsp::IIR::Filter filter;
-=======
-    float lastSampleRate;
->>>>>>> origin/master
     
     //declare LPF function
     dsp::ProcessorDuplicator <dsp::IIR::Filter<float>, dsp::IIR::Coefficients <float>> lowPassFilter;

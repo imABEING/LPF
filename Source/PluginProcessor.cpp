@@ -26,16 +26,6 @@ Iir_filterAudioProcessor::Iir_filterAudioProcessor()
 #endif
 {
     //Create Slider Ranges
-<<<<<<< HEAD
-    NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
-    NormalisableRange<float> resRange (1.0f, 5.0f);
-    
-    //Create and return a new parameter objects for features
-    tree.createAndAddParameter("cutoff", "Cutoff", String(),
-        cutoffRange, 16000.0f, nullptr, nullptr);
-    tree.createAndAddParameter("resonance", "Resonance", String(),
-        resRange, 1.0f, nullptr, nullptr);
-=======
     //NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
     //NormalisableRange<float> resRange (1.0f, 5.0f);
     
@@ -44,7 +34,6 @@ Iir_filterAudioProcessor::Iir_filterAudioProcessor()
         NormalisableRange<float>(20.0f, 20000.0f), 600.0f, nullptr, nullptr);
     tree.createAndAddParameter("resonance", "Resonance", String(),
         NormalisableRange<float>(1.0f, 5.0f), 1.0f, nullptr, nullptr);
->>>>>>> origin/master
     
     //State Identifier
     tree.state = ValueTree(Identifier("FilterState"));
@@ -122,11 +111,8 @@ void Iir_filterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     //Pass in values from dsp module
     lastSampleRate = sampleRate;
     dsp::ProcessSpec spec;
-<<<<<<< HEAD
     spec.sampleRate = sampleRate;
-=======
     sampleRate = spec.sampleRate;
->>>>>>> origin/master
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
     
@@ -174,12 +160,6 @@ void Iir_filterAudioProcessor::updateFilter()
     //Access values from value tree to pass into filter state
     const float freq = *tree.getRawParameterValue("cutoff");
     const float res = *tree.getRawParameterValue("resonance");
-    
-    
-<<<<<<< HEAD
-    
-=======
->>>>>>> origin/master
     
     //Access state attribute to return coefficients
     *lowPassFilter.state = *dsp::IIR::Coefficients <float>::makeLowPass(lastSampleRate, freq, res);
